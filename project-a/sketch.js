@@ -13,7 +13,7 @@ let d;
 let safeDistance;
 
 function setup() {
-  background(0,0,0,0.005);
+  background(0,0,0,0.0005);
   let c = createCanvas(800, 500);
   c.parent('p5-canvas-container');
   colorMode(HSB);
@@ -61,17 +61,9 @@ function draw() {
   safeDistance = 150;
 
   if (d < safeDistance) {
-    let dx = x - mouseX;
-    let dy = y - mouseY;
 
-
-    let len = sqrt(dx * dx + dy * dy);
-    let ux = dx / len;
-    let uy = dy / len;
-
-    // 目标点 = 鼠标 + 安全距离 * 单位方向
-    let finalTargetX = mouseX + ux * safeDistance;
-    let finalTargetY = mouseY + uy * safeDistance;
+    let finalTargetX = mouseX + safeDistance;
+    let finalTargetY = mouseY + safeDistance;
 
     // 平滑移动到目标点（越近越快）
     let moveSpeed = map(d, 0, safeDistance, 0.3, 0.1);
