@@ -25,8 +25,8 @@ let rainSound;
 
 function preload() {
   handPose = ml5.handPose(options);
-  bgm = loadSound("Forest.wav");
-  rainSound = loadSound("Rain.wav");
+  bgm = loadSound("Forest.mp3");
+  rainSound = loadSound("Rain.mp3");
 }
 
 function setup() {
