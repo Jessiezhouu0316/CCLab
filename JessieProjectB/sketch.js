@@ -3,7 +3,7 @@ let rains = [];
 let birds = [];
 let trees = [];
 //let chargingBird = null;
-let n = 100;
+let n = 150;
 let mic;
 let onTimer = 0;
 
@@ -16,7 +16,7 @@ let hands = [];
 //let prevClose = false;
 let prevClose = [false, false];      // 两只手的 prevClose
 let chargingBird = [null, null];     // 两只手正在蓄力的 bird
-let limit = 20;
+let limit = 30;
 
 let options = {manHands: 2, flipped: true};
 
@@ -30,7 +30,7 @@ function preload() {
 }
 
 function setup() {
-  let canvas = createCanvas(800, 500);
+  let canvas = createCanvas(windowWidth, windowHeight);
 
   bgm.loop();  
   bgm.setVolume(0.5); 
@@ -40,7 +40,7 @@ function setup() {
   canvas.parent("p5-canvas-container");
 
   video = createCapture(VIDEO);
-  video.size(800, 500);
+  video.size(windowWidth, windowHeight);
   video.hide(); 
   handPose.detectStart(video, gotHands);
 
@@ -94,12 +94,18 @@ function draw() {
       let p2 = hand.keypoints[8];  // 食指 tip
       let p3 = hand.keypoints[9];   // 手掌中部
 
+      // fill(255, 0, 0);
+      // circle(p1.x, p1.y, 12);
+
+      // fill(0, 0, 255);
+      // circle(p2.x, p2.y, 12);
+
       fill(0,0,0); 
       noStroke(); 
       circle(p3.x, p3.y, 15);
 
       let d = dist(p1.x, p1.y, p2.x, p2.y);
-      //console.log(d);
+      console.log(d);
       let currentClose = (d < limit);
 
     
@@ -200,10 +206,11 @@ if (onCount >= n*0.7) {
   }
 
   if (rains.length > 0) {
-    let vol = map(rains.length, 1, 20, 0, 0.8);
+    let vol = map(rains.length, 1, 20, 0, 0.6);
     rainSound.setVolume(vol);
 } 
-  
+  text("Try doing this 🤏 and then move the two fingers apart. —— 🐦", 5, 20);
+  text("Stay silent 🤫 for a while and something will change. ——🌧️", 5, 40);
 }
 
 function gotHands(results) {

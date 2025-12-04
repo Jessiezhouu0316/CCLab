@@ -8,7 +8,7 @@ class tree {
     this.ratioL = random(0.7, 0.9);
     this.ratioR = random(0.7,0.9);
     this.turnL = random(1.2, 1.8);
-    this.e = random(90,120);
+    this.e = random(120,150);
     this.breath = random(0.005,0.015);
     this.opaci = random(100,150);
     this.n = random(1.5,2.5);
@@ -20,9 +20,11 @@ class tree {
     //angleMode(DEGREES);
     translate(this.x, this.y); 
 
-    scale(1.5);
+    scale(2.5);
 
-    this.angle = map(sin(frameCount*this.breath), -1, 1, 10, 18);
+    let volu = mic.getLevel() * 0.001;
+
+    this.angle = map(sin(frameCount*(this.breath+volu)), -1, 1, 10, 18);
     this.angle = min(this.angle, 90);
 
     
@@ -39,7 +41,7 @@ class tree {
   }
 
   branch(h, level) {
-    let sw = map(h,15, 60, 1, this.maxS);
+    let sw = map(h,30, 60, 1, this.maxS);
     let op = map(h,1,60,80,120);
     strokeWeight(sw);
     stroke(0,0,0,op);
