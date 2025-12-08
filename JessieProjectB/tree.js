@@ -25,6 +25,7 @@ class tree {
     let volu = mic.getLevel() * 0.001;
 
     this.angle = map(sin(frameCount*(this.breath+volu)), -1, 1, 10, 18);
+    //this.angle = map(sin(frameCount*this.breath), -1, 1, 10, 18);
     this.angle = min(this.angle, 90);
 
     

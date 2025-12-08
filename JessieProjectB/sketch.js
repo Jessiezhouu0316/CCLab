@@ -11,6 +11,13 @@ let osc = [];
 let envelope = [];
 
 let handPose;
+let indexTip = 0;
+let thumbTip = 0;
+let midTip = 0;
+let ringTip = 0;
+let pinkyTip = 0;
+let wrist = 0;
+
 let video;
 let hands = [];
 //let prevClose = false;
@@ -90,9 +97,28 @@ function draw() {
     let hand = hands[i]; 
     
     if (hand.keypoints && hand.keypoints.length >= 21) {
-      let p1 = hand.keypoints[4];   // 拇指 tip
-      let p2 = hand.keypoints[8];  // 食指 tip
-      let p3 = hand.keypoints[9];   // 手掌中部
+      indexTip = hands[i].keypoints[8];
+wrist = hands[i].keypoints[0];
+thumbTip = hands[i].keypoints[4];
+midTip = hands[i].keypoints[12];
+ringTip = hands[i].keypoints[16];
+pinkyTip = hands[i].keypoints[20];
+
+let currentClose;
+// open / close 判断
+if (
+  indexTip.y < thumbTip.y &&
+  midTip.y < thumbTip.y &&
+  ringTip.y < thumbTip.y &&
+  pinkyTip.y < thumbTip.y
+) {
+  currentClose = true;
+} else {
+  currentClose = false;
+}
+      // let p1 = hand.keypoints[4];   // 拇指 tip
+      // let p2 = hand.keypoints[8];  // 食指 tip
+      // let p3 = hand.keypoints[9];   // 手掌中部
 
       // fill(255, 0, 0);
       // circle(p1.x, p1.y, 12);
@@ -102,19 +128,21 @@ function draw() {
 
       fill(0,0,0); 
       noStroke(); 
-      circle(p3.x, p3.y, 15);
+      circle(wrist.x, wrist.y, 15);
 
-      let d = dist(p1.x, p1.y, p2.x, p2.y);
-      console.log(d);
-      let currentClose = (d < limit);
+      // let d = dist(p1.x, p1.y, p2.x, p2.y);
+      // console.log(d);
+      // let currentClose = (d < limit);
 
-    
-      if (currentClose && !prevClose[i]) {
-        startChargingByHand(i, p3.x, p3.y);
-      }
 
       if (!currentClose && prevClose[i]) {
+        startChargingByHand(i, wrist.x, wrist.y);
+        
+      }
+
+      if (currentClose && !prevClose[i]) {
         releaseChargingByHand(i);
+        
       }
 
       prevClose[i] = currentClose;
@@ -186,7 +214,7 @@ function draw() {
   }
 }
 
-if (onCount >= n*0.7) {
+if (onCount >= n*0.6) {
   onTimer++;           
   if (onTimer > 120) { 
     rains.push(new rain());
@@ -209,8 +237,9 @@ if (onCount >= n*0.7) {
     let vol = map(rains.length, 1, 20, 0, 0.6);
     rainSound.setVolume(vol);
 } 
-  text("Try doing this 🤏 and then move the two fingers apart. —— 🐦", 5, 20);
-  text("Stay silent 🤫 for a while and something will change. ——🌧️", 5, 40);
+  textSize(24);
+  text("✊➡️✋. —— 🐦", 10, 30);
+  text("🤫. ——🌧️", 10, 60);
 }
 
 function gotHands(results) {
