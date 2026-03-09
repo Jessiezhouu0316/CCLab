@@ -103,6 +103,10 @@ function releaseChargingByHand(i) {
   }
 }
 
+function windowResized(){
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 
 function draw() {
   
